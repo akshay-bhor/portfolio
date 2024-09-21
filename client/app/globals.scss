@@ -3,8 +3,11 @@
 @tailwind utilities;
 
 :root {
-    --background: #171717;
+    --background: #14202c;
     --foreground: #ffffff;
+    --primary: #e62d51;
+    --grey: #292d32;
+    --blue: #007aff;
 }
 
 html,
@@ -20,6 +23,7 @@ body {
 
     margin: 0;
     padding: 0;
+    margin-top: 75px;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
@@ -30,3 +34,9 @@ body {
     color: var(--foreground);
     background: var(--background);
 }
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Roboto", sans-serif;
+}
+
+@import url("../styles/DrawerOverrides.scss");

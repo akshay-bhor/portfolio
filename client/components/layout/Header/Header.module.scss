@@ -1,0 +1,14 @@
+.headerContainer {
+    .menuButton {
+        color: var(--foreground);
+        &:hover {
+            color: var(--primary) !important;
+            background: transparent !important;
+        }
+    }
+    .headerTitle {
+        &:hover {
+            color: var(--primary) !important;
+        }
+    }
+}

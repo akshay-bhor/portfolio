@@ -7,6 +7,7 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./wrappers/**/*.{js,ts,jsx,tsx,mdx}",
     "./HOC/**/*.{js,ts,jsx,tsx,mdx}",
+    "./modules/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {

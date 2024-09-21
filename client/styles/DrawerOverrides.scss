@@ -1,0 +1,11 @@
+.headerMenuDrawer {
+    a {
+        color: var(--foreground);
+        &:hover {
+            color: var(--primary);
+        }
+    }
+    .ant-drawer-header-title {
+        justify-content: flex-end;
+    }
+}
