@@ -49,7 +49,7 @@ const Header = () => {
             <Drawer
                 placement="left"
                 onClose={onClose}
-                visible={drawerVisible}
+                open={drawerVisible}
                 style={{ backgroundColor: "var(--background)", color: "var(--foreground)" }}
                 rootClassName="headerMenuDrawer"
                 closeIcon={<CloseOutlined className="text-white" />}

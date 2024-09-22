@@ -1,17 +1,17 @@
 "use client";
-import { Environment, OrbitControls, Text } from "@react-three/drei";
+import { Environment, OrbitControls, Text, useAnimations, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { DownloadOutlined } from "@ant-design/icons";
 import clsx from "clsx";
 import styles from "./Home.module.scss";
 import { Button } from "antd";
-import { useMemo, useRef, useState } from "react";
-import { Mesh, Vector3 } from "three";
+import { RefObject, useEffect, useMemo, useRef, useState } from "react";
+import { Group, Mesh, Vector3 } from "three";
 
 const About = () => {
     return (
         <div className={clsx(styles.aboutContainer)}>
-            <div className="flex flex-col md:flex-row items-center justify-between h-[calc(100vh-70px)] z-10 px-4 md:px-8 my-10">
+            <div className="flex flex-col md:flex-row items-center justify-between h-[calc(120vh)] md:h-[calc(100vh-75px)] z-10 px-4 md:px-8 my-10">
                 <div className="flex items-center justify-start w-full md:h-full md:w-1/2 md:-mt-26">
                     <div className="flex flex-col items-start justify-center">
                         <h2 className={clsx("text-4xl md:text-6xl font-bold mb-4", styles.header)}>{"<About>"}</h2>
@@ -35,12 +35,21 @@ const About = () => {
                         <h2 className={clsx("text-4xl md:text-6xl font-bold mb-4", styles.header)}>{"</About>"}</h2>
                     </div>
                 </div>
-                <div className="w-full h-1/2 md:h-full md:w-1/2 md:-mt-26">
+                <div className="w-full h-2/5 md:h-full md:w-1/2 md:-mt-26">
                     <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
                         <Environment preset="forest" />
-                        <ambientLight intensity={20} />
+                        <ambientLight intensity={2} />
+                        <Model />
                         <MainSkillsModel />
-                        <OrbitControls enableZoom={false} enablePan={false} />
+                        <OrbitControls enablePan={false} enableZoom={false} />
+                        <spotLight
+                            position={[0, 1, 10]}
+                            intensity={10}
+                            angle={Math.PI / 2}
+                            penumbra={0.4}
+                            decay={0.6}
+                            castShadow
+                        />
                     </Canvas>
                 </div>
             </div>
@@ -49,6 +58,41 @@ const About = () => {
 };
 
 export default About;
+
+const Model = () => {
+    const group = useRef<Group>();
+    const { scene, animations } = useGLTF("/models/idle.glb");
+    const { actions } = useAnimations(animations, group);
+
+    useEffect(() => {
+        if (group.current && Object.keys(actions).length > 0) {
+            const actionNames = Object.keys(actions);
+            const action = actions[actionNames[0]];
+            if (action) {
+                action.play();
+            }
+        }
+    }, [actions]);
+
+    useFrame(({ camera }) => {
+        if (group.current) {
+            const lookAtVector = new Vector3(0, 0, 0);
+            camera.getWorldPosition(lookAtVector);
+            lookAtVector.y = group.current.position.y; // Keep the y-rotation level
+            group.current.lookAt(lookAtVector);
+        }
+    });
+
+    return (
+        <group>
+            <primitive object={scene} ref={group as RefObject<Group>} scale={[4, 4, 4]} position={[0, -4, 0]} />
+            <mesh position={[0, -4, 0]}>
+                <cylinderGeometry args={[10, 10, 0.1]} />
+                <meshStandardMaterial color="#14202c" />
+            </mesh>
+        </group>
+    );
+};
 
 const MainSkillsModel = () => {
     const [skills] = useState([

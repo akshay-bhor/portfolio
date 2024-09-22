@@ -29,7 +29,7 @@ const Hero = () => {
                     <Canvas camera={{ position: [-2, 2, 2] }}>
                         <ambientLight intensity={2} />
                         <Model />
-                        <directionalLight color="#e62d51" intensity={5} position={[4, 4, 4]} />
+                        <directionalLight color="#e62d51" intensity={2} position={[4, 4, 4]} />
                         <OrbitControls />
                     </Canvas>
                 </div>
@@ -69,7 +69,15 @@ const Model = () => {
         }
     }, [actions]);
 
-    return <primitive object={scene} ref={group as RefObject<Group>} />;
+    return (
+        <group>
+            <primitive object={scene} ref={group as RefObject<Group>} position={[0, 0, 0.6]} />
+            <mesh position={[0, -0.02, 0]}>
+                <cylinderGeometry args={[2, 2, 0.1]} />
+                <meshStandardMaterial color="#14202c" />
+            </mesh>
+        </group>
+    );
 };
 
 const BackgroundCubes = () => {
