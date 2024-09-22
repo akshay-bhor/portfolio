@@ -1,0 +1,18 @@
+.heroContainer, .aboutContainer {
+    .header {
+        text-shadow: 6px 6px 0px rgba(var(--primary-rgb), 0.6);
+    }
+    .subtitle {
+        border-bottom: 4px solid rgba(var(--primary-rgb), 0.6);
+    }
+}
+.aboutContainer {
+    .customButton {
+        background: var(--primary);
+        margin-top: 36px;
+
+        &:hover {
+            background: rgba(var(--primary-rgb), 0.8)!important;
+        }
+    }
+}

@@ -1,17 +1,28 @@
 "use client";
 import { Environment, OrbitControls, Text, useAnimations, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
+import clsx from "clsx";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { Group, Mesh, Vector3 } from "three";
+import styles from "./Home.module.scss";
 
 const Hero = () => {
     return (
-        <div className="relative">
+        <div className={clsx("relative", styles.heroContainer)}>
             <div className="relative flex flex-col md:flex-row items-center justify-between h-[calc(100vh-75px)] z-10 px-4 md:px-8">
                 <div className="flex items-center justify-center w-full h-1/2 md:h-full md:w-1/2">
-                    <div className="flex flex-col items-center justify-center md:-mt-32">
-                        <h1 className="text-6xl md:text-8xl font-bold mb-4">Akshay Bhor</h1>
-                        <h2 className="text-2xl md:text-4xl text-gray-500">Software Engineer</h2>
+                    <div className="flex flex-col items-start justify-center md:-mt-32">
+                        <h1 className={clsx("text-6xl md:text-8xl font-bold mb-4", styles.header)}>
+                            Hi, <br /> I&apos;m Akshay
+                        </h1>
+                        <h2
+                            className={clsx(
+                                "text-2xl md:text-4xl text-gray-400 pb-2 shadow-text relative",
+                                styles.subtitle
+                            )}
+                        >
+                            Full Stack Engineer
+                        </h2>
                     </div>
                 </div>
                 <div className="w-full h-1/2 md:h-full md:w-1/2">
@@ -64,23 +75,36 @@ const Model = () => {
 const BackgroundCubes = () => {
     const [cubesInfo, setCubesInfo] = useState<Array<{ position: Vector3; velocity: Vector3 }>>([]);
     const cubesRef = useRef<Mesh[]>([]);
+    const programmingSymbols = ["<>", "//", "{}", "[]", "()", "=>", "&&", "||", "!=", "==", "+=", "``"];
 
     useEffect(() => {
-        const initPos = [...Array(20)].map(() => ({
-            position: new Vector3(Math.random() * 11 - 5, 10, Math.random() * 5 - 5),
-            velocity: new Vector3(0, Math.random() * 0.02, 0),
+        const initPos = [...Array(25)].map(() => ({
+            position: new Vector3(Math.random() * 11 - 5, -4, Math.random() * 5 - 5),
+            velocity: new Vector3(0, Math.random() * 0.2 + 0.1, 0),
         }));
 
         setCubesInfo(initPos);
     }, []);
 
-    useFrame(() => {
+    useFrame((state, delta) => {
         cubesRef.current.forEach((cube, i) => {
-            cube.position.x = cube.position.x + cubesInfo[i].velocity.x;
-            cube.position.y = cube.position.y - cubesInfo[i].velocity.y;
-            cube.position.z = cube.position.z + cubesInfo[i].velocity.z;
+            // Apply gravity
+            cubesInfo[i].velocity.y -= 0.001;
 
-            if (cube.position.y < -10) cube.position.y = cubesInfo[i].position.y;
+            // Update position
+            cube.position.x += cubesInfo[i].velocity.x * delta * 60;
+            cube.position.y += cubesInfo[i].velocity.y * delta * 60;
+            cube.position.z += cubesInfo[i].velocity.z * delta * 60;
+
+            // Reset if cube falls below the bottom
+            if (cube.position.y < -10) {
+                cube.position.set(Math.random() * 11 - 5, -10, Math.random() * 5 - 5);
+                cubesInfo[i].velocity.y = Math.random() * 0.2 + 0.1;
+            }
+
+            // Rotate the cube
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
         });
     });
 
@@ -105,7 +129,7 @@ const BackgroundCubes = () => {
                         metalness={0.6}
                     />
                     <Text position={[0, 0, 0.1]} fontSize={0.5} color="#ffffff" anchorX="center" anchorY="middle">
-                        {"</>"}
+                        {programmingSymbols[i % programmingSymbols.length]}
                     </Text>
                 </mesh>
             ))}

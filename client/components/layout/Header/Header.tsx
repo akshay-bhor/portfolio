@@ -33,7 +33,7 @@ const Header = () => {
 
     return (
         <header
-            className={clsx("fixed top-0 left-0 right-0 z-10 backdrop-blur-md bg-opacity-7", styles.headerContainer)}
+            className={clsx("fixed top-0 left-0 right-0", styles.headerContainer)}
         >
             <div className="max-w-[1920px] mx-auto px-4 py-4 flex items-center">
                 <Button
@@ -56,7 +56,7 @@ const Header = () => {
             >
                 <nav>
                     {menuOptions.map((option, index) => (
-                        <div key={index} className="text-lg font-bold p-4">
+                        <div key={index} className="text-xl font-bold p-4">
                             <a href={option.href} onClick={onClose} className="text-white">
                                 {option.label}
                             </a>
