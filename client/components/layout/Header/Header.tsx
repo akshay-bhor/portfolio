@@ -4,11 +4,16 @@ import { Button, Drawer } from "antd";
 import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import styles from "./Header.module.scss";
 import clsx from "clsx";
+import { useRouter } from "next/navigation";
 
 const menuOptions = [
     {
         label: "<About />",
         href: "#about",
+    },
+    {
+        label: "<Work />",
+        href: "#work",
     },
     {
         label: "<Blog />",
@@ -22,6 +27,7 @@ const menuOptions = [
 
 const Header = () => {
     const [drawerVisible, setDrawerVisible] = useState(false);
+    const router = useRouter();
 
     const showDrawer = () => {
         setDrawerVisible(true);
@@ -42,7 +48,7 @@ const Header = () => {
                     size="large"
                     className={clsx("mr-4 bg-transparent border-none shadow-none", styles.menuButton)}
                 />
-                <div className={clsx("text-3xl font-bold cursor-pointer", styles.headerTitle)}>
+                <div className={clsx("text-3xl font-bold cursor-pointer", styles.headerTitle)} onClick={() => router.push("/")}>
                     {`{ Akshay }`}
                 </div>
             </div>

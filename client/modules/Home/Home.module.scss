@@ -1,4 +1,4 @@
-.heroContainer, .aboutContainer {
+.heroContainer, .aboutContainer, .workContainer {
     .header {
         text-shadow: 6px 6px 0px rgba(var(--primary-rgb), 0.6);
     }
@@ -14,5 +14,10 @@
         &:hover {
             background: rgba(var(--primary-rgb), 0.8)!important;
         }
+    }
+}
+.workContainer {
+    .title {
+        color: var(--primary);
     }
 }

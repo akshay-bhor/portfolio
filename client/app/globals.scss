@@ -40,7 +40,14 @@ body {
     background: var(--background);
 }
 
-h1, h2, h3, h4, h5, h6 {
+a {
+    color: var(--primary)
+}
+a:hover {
+    color: var(--primary)
+}
+
+h1, h2 {
     font-family: "Roboto", sans-serif;
 }
 
