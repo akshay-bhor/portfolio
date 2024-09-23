@@ -19,7 +19,7 @@ export default TypingModel;
 
 const Model = () => {
     const group = useRef<Group>();
-    const { scene, animations } = useGLTF("/models/typing.glb");
+    const { scene, animations } = useGLTF("/portfolio/models/typing.glb");
     const { actions } = useAnimations(animations, group);
 
     useEffect(() => {
