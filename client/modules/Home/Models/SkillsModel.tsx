@@ -22,7 +22,7 @@ export default SkillsModel;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Model = () => {
     const group = useRef<Group>();
-    const { scene, animations } = useGLTF("/portfolio/models/idle.glb");
+    const { scene, animations } = useGLTF("/models/idle.glb");
     const { actions } = useAnimations(animations, group);
 
     useEffect(() => {
