@@ -6,6 +6,10 @@ import styles from "./Header.module.scss";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 
+type TProps = {
+    headerVariant?: "transparent"
+}
+
 const menuOptions = [
     {
         label: "<About />",
@@ -25,7 +29,7 @@ const menuOptions = [
     },
 ];
 
-const Header = () => {
+const Header = ({ headerVariant }: TProps) => {
     const [drawerVisible, setDrawerVisible] = useState(false);
     const router = useRouter();
 
@@ -39,7 +43,8 @@ const Header = () => {
 
     return (
         <header
-            className={clsx("fixed top-0 left-0 right-0", styles.headerContainer)}
+            className={clsx("fixed top-0 left-0 right-0 z-10", styles.headerContainer, headerVariant === "transparent" ? "bg-transparent" : "")}
+            style={{ color: headerVariant === "transparent" ? 'var(--background)' : 'var(--forground)'}}
         >
             <div className="max-w-[1920px] mx-auto px-4 py-4 flex items-center">
                 <Button
@@ -47,6 +52,7 @@ const Header = () => {
                     onClick={showDrawer}
                     size="large"
                     className={clsx("mr-4 bg-transparent border-none shadow-none", styles.menuButton)}
+                    style={{ color: headerVariant === "transparent" ? 'var(--background)' : 'var(--forground)'}}
                 />
                 <div className={clsx("text-3xl font-bold cursor-pointer", styles.headerTitle)} onClick={() => router.push("/")}>
                     {`{ Akshay }`}

@@ -1,6 +1,6 @@
 import { GithubOutlined, LinkedinOutlined } from "@ant-design/icons";
 import clsx from "clsx";
-import styles from "./Home.module.scss";
+import styles from "../Shared.module.scss";
 
 const Work = () => {
     const mainSkills = [

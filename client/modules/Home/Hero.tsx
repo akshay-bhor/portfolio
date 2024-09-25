@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import styles from "./Home.module.scss";
+import styles from "../Shared.module.scss";
 import TypingModel from "./Models/TypingModel";
 import BouncingCubes from "./Models/BoundingCubes";
 

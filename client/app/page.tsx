@@ -1,6 +1,4 @@
-// import About from "@/modules/Home/About";
-// import Hero from "@/modules/Home/Hero";
-// import Work from "@/modules/Home/Work";
+import ApplicationLayout from "@/components/layout/Application/ApplicationLayout";
 import World from "@/modules/Home/World";
 import { Metadata } from "next";
 
@@ -13,10 +11,9 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
         <>
-            {/* <Hero />
-            <About />
-            <Work /> */}
-            <World />
+            <ApplicationLayout headerVariant="transparent">
+                <World />
+            </ApplicationLayout>
         </>
     );
 }

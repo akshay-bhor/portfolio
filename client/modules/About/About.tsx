@@ -1,8 +1,8 @@
 import { DownloadOutlined } from "@ant-design/icons";
 import clsx from "clsx";
-import styles from "./Home.module.scss";
+import styles from "../Shared.module.scss";
 import { Button } from "antd";
-import SkillsModel from "./Models/SkillsModel";
+import SkillsModel from "./SkillsModel";
 
 const About = () => {
     return (

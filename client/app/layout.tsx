@@ -3,7 +3,6 @@ import type { Metadata } from "next";
 import "./globals.scss";
 import ThemeProvider from "@/providers/Theme.provider";
 import AppErrorBoundary from "@/components/error/ErrorBoundry";
-import ApplicationLayout from "@/components/layout/Application/ApplicationLayout";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -25,13 +24,11 @@ export default function RootLayout({
                     href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap"
                     rel="stylesheet"
                 />
-                 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet" />
+                <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet" />
             </head>
             <body>
                 <AppErrorBoundary>
-                    <ThemeProvider>
-                        <ApplicationLayout>{children}</ApplicationLayout>
-                    </ThemeProvider>
+                    <ThemeProvider>{children}</ThemeProvider>
                 </AppErrorBoundary>
             </body>
         </html>

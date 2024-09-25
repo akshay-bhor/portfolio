@@ -1,8 +1,6 @@
 .headerContainer {
-    background: var(--background);
     z-index: 20;
     .menuButton {
-        color: var(--foreground);
         &:hover {
             color: var(--primary) !important;
             background: transparent !important;
