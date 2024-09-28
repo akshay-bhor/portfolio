@@ -1,7 +1,7 @@
 "use client";
 import ApplicationLayout from "@/components/layout/Application/ApplicationLayout";
 import { useState } from "react";
-import { useEnvironment, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import WorldModel from "@/modules/Models/WorldModel";
 import Intro from "@/modules/Home/Intro";
 
@@ -18,6 +18,5 @@ export default function Home() {
     );
 }
 
-// Preload the model & environment
+// Preload the model
 useGLTF.preload("/models/run_idle.glb");
-useEnvironment.preload({ preset: "forest" });

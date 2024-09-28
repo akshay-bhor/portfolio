@@ -1,11 +1,10 @@
 "use client";
 import About from "@/modules/About/About";
-import { useEnvironment, useGLTF } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 
 export default function AboutPage() {
     return <About />;
 }
 
-// Preload the model & environment
+// Preload the model
 useGLTF.preload("/models/run_idle.glb");
-useEnvironment.preload({ preset: "forest" });

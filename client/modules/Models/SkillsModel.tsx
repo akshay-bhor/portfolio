@@ -1,5 +1,5 @@
 "use client";
-import { Environment, OrbitControls, Text, useAnimations, useGLTF } from "@react-three/drei";
+import { OrbitControls, Text, useAnimations, useGLTF } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { RefObject, useEffect, useMemo, useRef, useState } from "react";
 import { Group, Mesh, Vector3 } from "three";
@@ -7,22 +7,20 @@ import { Group, Mesh, Vector3 } from "three";
 const SkillsModel = () => {
     return (
         <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
-            <Environment preset="forest" />
-            <ambientLight intensity={2} />
-            {/* <Model /> */}
+            <ambientLight intensity={10} />
+            <Model />
             <MainSkillsModel />
             <OrbitControls enablePan={false} enableZoom={false} />
-            <spotLight position={[0, 1, 10]} intensity={10} angle={Math.PI / 2} penumbra={0.4} decay={0.6} castShadow />
+            <directionalLight position={[0, 5, 0]} intensity={10} castShadow />
         </Canvas>
     );
 };
 
 export default SkillsModel;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Model = () => {
     const group = useRef<Group>();
-    const { scene, animations } = useGLTF("/models/idle.glb");
+    const { scene, animations } = useGLTF("/models/run_idle.glb");
     const { actions } = useAnimations(animations, group);
 
     useEffect(() => {

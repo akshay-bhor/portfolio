@@ -37,7 +37,7 @@ const WorldModel = () => {
                 style={{ zIndex: 1 }}
             >
                 <ambientLight intensity={5} />
-                <Environment background>
+                <Environment background backgroundIntensity={2}>
                     <mesh scale={100} rotation={[0, 0, Math.PI / 2]}>
                         <sphereGeometry args={[1, 200, 200]} />
                         <meshBasicMaterial side={Three.BackSide}>
@@ -56,7 +56,6 @@ const WorldModel = () => {
                 <CloudRing radius={31} count={20} shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
                 <CloudRing radius={28} count={15} shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
                 <BillBoards shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
-                <Environment preset="forest" backgroundIntensity={2} />
                 <spotLight
                     position={[characterPosition.x - 1, 3, characterPosition.z + 2.5]}
                     intensity={10}
@@ -160,7 +159,7 @@ const Model = ({
         }
     }, [actions, mixer]);
 
-    return <primitive object={scene} ref={ref} position={characterPosition} rotation={[0, Math.PI * 1.06, 0]} />;
+    return <primitive object={scene} ref={ref} position={characterPosition} rotation={[0, Math.PI * 1.06, 0]} scale={[1, 1, 1]} />;
 };
 
 const Ring = ({ shouldRun, rotationSpeed }: { shouldRun: boolean; rotationSpeed: number }) => {

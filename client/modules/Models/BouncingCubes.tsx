@@ -1,5 +1,5 @@
 "use client";
-import { Environment, Text } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import { Mesh, Vector3 } from "three";
@@ -7,7 +7,6 @@ import { Mesh, Vector3 } from "three";
 const BouncingCubes = () => {
     return (
         <Canvas camera={{ position: [0, 0, 5] }}>
-            <Environment preset="forest" />
             <Model />
             <spotLight position={[0, 5, 5]} intensity={50} angle={Math.PI / 2} penumbra={0.4} decay={0.6} castShadow />
         </Canvas>
