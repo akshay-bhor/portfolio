@@ -1,19 +1,23 @@
+"use client";
 import ApplicationLayout from "@/components/layout/Application/ApplicationLayout";
-import World from "@/modules/Home/World";
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-    title: "Akshay | Full-Stack Developer | FinTech | Tech Blogger",
-    description:
-        "Explore Akshay's portfolio showcasing innovative full-stack projects and insightful programming blog. Discover expert web development tips, coding best practices, and the latest tech trends.",
-};
+import { useState } from "react";
+import { useEnvironment, useGLTF } from "@react-three/drei";
+import WorldModel from "@/modules/Models/WorldModel";
+import Intro from "@/modules/Home/Intro";
 
 export default function Home() {
+    const [view, setView] = useState<"default" | "model">("default");
+
     return (
         <>
-            <ApplicationLayout headerVariant="transparent">
-                <World />
+            <ApplicationLayout headerVariant={view === "model" ? "transparent" : undefined}>
+                {view === "default" ? <Intro setView={setView} /> : null}
+                {view === "model" ? <WorldModel /> : null}
             </ApplicationLayout>
         </>
     );
 }
+
+// Preload the model & environment
+useGLTF.preload("/models/run_idle.glb");
+useEnvironment.preload({ preset: "forest" });

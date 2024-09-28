@@ -2,7 +2,7 @@ import { DownloadOutlined } from "@ant-design/icons";
 import clsx from "clsx";
 import styles from "../Shared.module.scss";
 import { Button } from "antd";
-import SkillsModel from "./SkillsModel";
+import SkillsModel from "../Models/SkillsModel";
 
 const About = () => {
     return (

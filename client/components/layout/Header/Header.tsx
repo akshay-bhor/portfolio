@@ -13,19 +13,19 @@ type TProps = {
 const menuOptions = [
     {
         label: "<About />",
-        href: "#about",
+        href: "/about",
     },
     {
         label: "<Work />",
-        href: "#work",
+        href: "/work",
     },
     {
         label: "<Blog />",
-        href: "#blog",
+        href: "/blog",
     },
     {
         label: "<Contact />",
-        href: "#contact",
+        href: "/contact",
     },
 ];
 
@@ -43,7 +43,7 @@ const Header = ({ headerVariant }: TProps) => {
 
     return (
         <header
-            className={clsx("fixed top-0 left-0 right-0 z-10", styles.headerContainer, headerVariant === "transparent" ? "bg-transparent" : "")}
+            className={clsx("fixed top-0 left-0 right-0 z-10", styles.headerContainer, headerVariant === "transparent" ? "bg-transparent" : "bg-[var(--background)]")}
             style={{ color: headerVariant === "transparent" ? 'var(--background)' : 'var(--forground)'}}
         >
             <div className="max-w-[1920px] mx-auto px-4 py-4 flex items-center">

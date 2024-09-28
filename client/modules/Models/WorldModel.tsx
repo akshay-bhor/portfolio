@@ -7,23 +7,35 @@ import {
     useGLTF,
     Cloud,
     Billboard,
-    Html,
+    Text,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import * as Three from "three";
 import { Vector3, AnimationAction, Group } from "three";
 
 const worldRadius = 30;
 
-const World = () => {
+const WorldModel = () => {
     const [characterPosition] = useState(new Vector3(-28, 0, 8));
     const [shouldRun, setShouldRun] = useState(false);
     const [rotationSpeed] = useState(0.5 * 0.2);
 
+    useEffect(() => {
+        document.body.style.background = "var(--forground)";
+
+        return () => {
+            document.body.style.background = "var(--background)";
+        };
+    }, []);
+
     return (
         <div className="w-full h-screen">
-            <Canvas camera={{ position: [characterPosition.x + 0.4, 1.5, characterPosition.z + 2.5], far: 20 }} style={{ zIndex: 1 }}>
+            <Canvas
+                camera={{ position: [characterPosition.x + 0.4, 1.5, characterPosition.z + 2.5], far: 20 }}
+                style={{ zIndex: 1 }}
+            >
                 <ambientLight intensity={5} />
                 <Environment background>
                     <mesh scale={100} rotation={[0, 0, Math.PI / 2]}>
@@ -44,12 +56,21 @@ const World = () => {
                 <CloudRing radius={31} count={20} shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
                 <CloudRing radius={28} count={15} shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
                 <BillBoards shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
+                <Environment preset="forest" backgroundIntensity={2} />
+                <spotLight
+                    position={[characterPosition.x - 1, 3, characterPosition.z + 2.5]}
+                    intensity={10}
+                    angle={Math.PI / 2}
+                    penumbra={0.4}
+                    decay={0.6}
+                    castShadow
+                />
             </Canvas>
         </div>
     );
 };
 
-export default World;
+export default WorldModel;
 
 const Model = ({
     characterPosition,
@@ -243,15 +264,25 @@ const CloudRing = ({
 
 const BillBoards = ({ shouldRun, rotationSpeed }: { shouldRun: boolean; rotationSpeed: number }) => {
     const groupRef = useRef<Group>(null);
+    const router = useRouter();
+
+    const navigateTo = useCallback((page: string) => {
+        page = page.toLowerCase();
+        if (page.includes("about")) router.push("/about");
+        if (page.includes("work")) router.push("/work");
+        if (page.includes("blog")) router.push("/blog");
+        if (page.includes("contact")) router.push("/contact");
+    }, [router]);
 
     const boards = useMemo(() => {
         const texts = ["<About />", "<Work />", "<Blog />", "<Contact />"];
 
         return Array.from(Array(16).keys()).map((_, idx) => {
             const angle = (idx / 16) * Math.PI * 2;
-            const x = (worldRadius - 0.5) * Math.cos(angle);
+            const x = (worldRadius - (idx % 2 === 0 ? 1.5 : 0.5)) * Math.cos(angle);
             const y = 2;
             const z = worldRadius * Math.sin(angle);
+            const page = texts[idx % texts.length];
 
             return (
                 <Billboard
@@ -260,27 +291,40 @@ const BillBoards = ({ shouldRun, rotationSpeed }: { shouldRun: boolean; rotation
                     lockX={false}
                     lockY={false}
                     lockZ={false}
+                    castShadow
+                    receiveShadow
                     position={new Vector3(x, y, z)}
                 >
-                    <Html
-                        transform
-                        occlude="blending"
-                        style={{
-                            transition: 'all 0.2s',
-                            opacity: 1,
-                            transform: 'scale(1)',
-                        }}
-                        distanceFactor={1.5}
+                    <mesh
+                        castShadow
+                        receiveShadow
+                        onPointerOver={() => (document.body.style.cursor = "pointer")}
+                        onPointerLeave={() => (document.body.style.cursor = "default")}
+                        onClick={() => navigateTo(page)}
                     >
-                        <div className="bg-white p-2 rounded" style={{ width: '150px', textAlign: 'center' }}>
-                            <h3 className="text-lg font-bold" style={{ color: '#333' }}>{texts[idx % texts.length]}</h3>
-                            <p className="text-sm" style={{ color: '#666' }}>Click to learn more</p>
-                        </div>
-                    </Html>
+                        <boxGeometry args={[0.5, 0.3, 0.026]} />
+                        <meshPhysicalMaterial
+                            color="#ef768e"
+                            opacity={0.4}
+                            transmission={0.4}
+                            roughness={0.1}
+                            metalness={0.8}
+                            envMapIntensity={1.5}
+                        />
+                        <Text
+                            position={[0, 0, 0.014]}
+                            fontSize={0.05}
+                            color="#14202c"
+                            anchorX="center"
+                            anchorY="middle"
+                        >
+                            {page}
+                        </Text>
+                    </mesh>
                 </Billboard>
             );
         });
-    }, []);
+    }, [navigateTo]);
 
     useFrame((_, delta) => {
         if (shouldRun && groupRef.current) groupRef.current.rotation.y += delta * rotationSpeed;
