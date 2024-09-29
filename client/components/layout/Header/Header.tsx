@@ -5,6 +5,7 @@ import { MenuOutlined, CloseOutlined } from "@ant-design/icons";
 import styles from "./Header.module.scss";
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type TProps = {
     headerVariant?: "transparent"
@@ -69,9 +70,9 @@ const Header = ({ headerVariant }: TProps) => {
                 <nav>
                     {menuOptions.map((option, index) => (
                         <div key={index} className="text-xl font-bold p-4">
-                            <a href={option.href} onClick={onClose} className="text-white">
+                            <Link href={option.href} onClick={onClose} className="text-white">
                                 {option.label}
-                            </a>
+                            </Link>
                         </div>
                     ))}
                 </nav>

@@ -7,7 +7,7 @@ import {
     useGLTF,
     Cloud,
     Billboard,
-    Text,
+    Html,
 } from "@react-three/drei";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useRouter } from "next/navigation";
@@ -56,14 +56,6 @@ const WorldModel = () => {
                 <CloudRing radius={31} count={20} shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
                 <CloudRing radius={28} count={15} shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
                 <BillBoards shouldRun={shouldRun} rotationSpeed={rotationSpeed} />
-                <spotLight
-                    position={[characterPosition.x - 1, 3, characterPosition.z + 2.5]}
-                    intensity={10}
-                    angle={Math.PI / 2}
-                    penumbra={0.4}
-                    decay={0.6}
-                    castShadow
-                />
             </Canvas>
         </div>
     );
@@ -159,7 +151,15 @@ const Model = ({
         }
     }, [actions, mixer]);
 
-    return <primitive object={scene} ref={ref} position={characterPosition} rotation={[0, Math.PI * 1.06, 0]} scale={[1, 1, 1]} />;
+    return (
+        <primitive
+            object={scene}
+            ref={ref}
+            position={characterPosition}
+            rotation={[0, Math.PI * 1.06, 0]}
+            scale={[1, 1, 1]}
+        />
+    );
 };
 
 const Ring = ({ shouldRun, rotationSpeed }: { shouldRun: boolean; rotationSpeed: number }) => {
@@ -265,13 +265,16 @@ const BillBoards = ({ shouldRun, rotationSpeed }: { shouldRun: boolean; rotation
     const groupRef = useRef<Group>(null);
     const router = useRouter();
 
-    const navigateTo = useCallback((page: string) => {
-        page = page.toLowerCase();
-        if (page.includes("about")) router.push("/about");
-        if (page.includes("work")) router.push("/work");
-        if (page.includes("blog")) router.push("/blog");
-        if (page.includes("contact")) router.push("/contact");
-    }, [router]);
+    const navigateTo = useCallback(
+        (page: string) => {
+            page = page.toLowerCase();
+            if (page.includes("about")) router.push("/about");
+            if (page.includes("work")) router.push("/work");
+            if (page.includes("blog")) router.push("/blog");
+            if (page.includes("contact")) router.push("/contact");
+        },
+        [router]
+    );
 
     const boards = useMemo(() => {
         const texts = ["<About />", "<Work />", "<Blog />", "<Contact />"];
@@ -294,32 +297,30 @@ const BillBoards = ({ shouldRun, rotationSpeed }: { shouldRun: boolean; rotation
                     receiveShadow
                     position={new Vector3(x, y, z)}
                 >
-                    <mesh
-                        castShadow
-                        receiveShadow
-                        onPointerOver={() => (document.body.style.cursor = "pointer")}
-                        onPointerLeave={() => (document.body.style.cursor = "default")}
-                        onClick={() => navigateTo(page)}
+                    <Html
+                        transform
+                        occlude="blending"
+                        style={{
+                            transition: "all 0.2s",
+                            opacity: 1,
+                            transform: "scale(1)",
+                        }}
+                        distanceFactor={1.5}
                     >
-                        <boxGeometry args={[0.5, 0.3, 0.026]} />
-                        <meshPhysicalMaterial
-                            color="#ef768e"
-                            opacity={0.4}
-                            transmission={0.4}
-                            roughness={0.1}
-                            metalness={0.8}
-                            envMapIntensity={1.5}
-                        />
-                        <Text
-                            position={[0, 0, 0.014]}
-                            fontSize={0.05}
-                            color="#14202c"
-                            anchorX="center"
-                            anchorY="middle"
+                        <div
+                            className="p-2 w-40 text-center cursor-pointer rounded-lg"
+                            style={{
+                                background: "linear-gradient(to bottom right, #fce8ec, #ef768e)",
+                                boxShadow: "0 0 10px 5px rgba(239, 118, 142, 0.3)",
+                                transform: "scale(1.05)",
+                            }}
+                            onClick={() => navigateTo(page)}
                         >
-                            {page}
-                        </Text>
-                    </mesh>
+                            <h3 className="text-lg font-bold" style={{ color: "var(--background)" }}>
+                                {page}
+                            </h3>
+                        </div>
+                    </Html>
                 </Billboard>
             );
         });
