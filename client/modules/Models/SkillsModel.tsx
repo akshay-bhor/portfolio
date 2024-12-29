@@ -8,7 +8,7 @@ const SkillsModel = () => {
     return (
         <Canvas camera={{ position: [0, 0, 10], fov: 75 }}>
             <ambientLight intensity={10} />
-            <Model />
+            {/* <Model /> */}
             <MainSkillsModel />
             <OrbitControls enablePan={false} enableZoom={false} />
             <directionalLight position={[0, 5, 0]} intensity={10} castShadow />
@@ -18,6 +18,7 @@ const SkillsModel = () => {
 
 export default SkillsModel;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Model = () => {
     const group = useRef<Group>();
     const { scene, animations } = useGLTF("/models/run_idle.glb");
